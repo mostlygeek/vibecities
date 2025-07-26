@@ -31,10 +31,10 @@ These instructions use Claude Desktop as an MCP client.
    ```
 
 1. Restart claude desktop (Cmd+r on mac, ctrl+r on windows)
-1. Ask claude to make you a website, Try this:
+1. Ask claude to search the web and make you a website, Try this:
 
    ```
-   Create a new page in vibecities under /geocities. The content should history of geocities it's rise and eventual fall, it's affect on culture and impact on the web. I want the design to be a 90s style website. Make it a nice personal geocities webpage. A night time theme. Throw in some funny 90s cultural references. Skip the artifact creation and recapping what you did.
+   Search the web the top 10 songs in the 1997. Create a page in vibecities under /top-10-in-1997 in a geocities style personal website.
    ```
 
 1. Open `http://localhost:1337/` in your browser
