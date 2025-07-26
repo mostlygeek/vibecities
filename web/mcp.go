@@ -84,5 +84,25 @@ func NewMCPServer(db db.Store) *server.MCPServer {
 		return mcp.NewToolResultText(record.Data), nil
 	})
 
+	deleteTool := mcp.NewTool("page_delete",
+		mcp.WithDescription("Delete a web page from the database"),
+		mcp.WithString("path",
+			mcp.Required(),
+			mcp.Description("Path/key for the web page to delete"),
+		),
+	)
+	srv.AddTool(deleteTool, func(ctx context.Context, request mcp.CallToolRequest) (*mcp.CallToolResult, error) {
+		path, err := request.RequireString("path")
+		if err != nil {
+			return mcp.NewToolResultError(err.Error()), nil
+		}
+
+		if err := db.Delete(path); err != nil {
+			return mcp.NewToolResultError(fmt.Sprintf("Error deleting web page: %v", err)), nil
+		}
+
+		return mcp.NewToolResultText(fmt.Sprintf("Successfully deleted web page at path: %s", path)), nil
+	})
+
 	return srv
 }

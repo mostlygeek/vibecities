@@ -54,7 +54,7 @@ func (s *Server) IndexHandler(c *gin.Context) {
 	html := `<!DOCTYPE html>
 <html>
 <head>
-    <title>Available Pages</title>
+    <title>MCPCities</title>
     <style>
         body { font-family: Arial, sans-serif; margin: 40px; }
         h1 { color: #333; }
@@ -65,14 +65,14 @@ func (s *Server) IndexHandler(c *gin.Context) {
     </style>
 </head>
 <body>
-    <h1>Available Pages</h1>`
+    <h1>Pages</h1>`
 
 	if len(records) == 0 {
 		html += `    <p>No pages available yet.</p>`
 	} else {
 		html += `    <ul>`
 		for path := range records {
-			html += `        <li><a href="` + path + `">` + path + `</a></li>`
+			html += `        <li><a href="` + path + `" target="_blank">` + path + `</a></li>`
 		}
 		html += `    </ul>`
 	}

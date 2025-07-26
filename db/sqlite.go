@@ -79,6 +79,14 @@ func (d *DBSqlite) Get(path string) (rec Record, ok bool) {
 	return Record{Data: data}, true
 }
 
+func (d *DBSqlite) Delete(path string) error {
+	d.Lock()
+	defer d.Unlock()
+
+	_, err := d.db.Exec("DELETE FROM records WHERE path = ?", path)
+	return err
+}
+
 func (d *DBSqlite) Close() error {
 	return d.db.Close()
 }
