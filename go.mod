@@ -1,4 +1,4 @@
-module github.com/mostlygeek/mcpcities
+module github.com/mostlygeek/vibecities
 
 go 1.24.3
 

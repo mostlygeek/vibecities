@@ -5,7 +5,7 @@ import (
 
 	"github.com/gin-gonic/gin"
 	"github.com/mark3labs/mcp-go/server"
-	"github.com/mostlygeek/mcpcities/db"
+	"github.com/mostlygeek/vibecities/db"
 )
 
 type Server struct {

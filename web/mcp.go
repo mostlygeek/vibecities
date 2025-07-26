@@ -7,7 +7,7 @@ import (
 
 	"github.com/mark3labs/mcp-go/mcp"
 	"github.com/mark3labs/mcp-go/server"
-	"github.com/mostlygeek/mcpcities/db"
+	"github.com/mostlygeek/vibecities/db"
 )
 
 func NewMCPServer(db db.Store) *server.MCPServer {

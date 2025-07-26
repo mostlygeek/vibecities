@@ -4,8 +4,8 @@ import (
 	"log"
 	"net/http"
 
-	"github.com/mostlygeek/mcpcities/db"
-	"github.com/mostlygeek/mcpcities/web"
+	"github.com/mostlygeek/vibecities/db"
+	"github.com/mostlygeek/vibecities/web"
 )
 
 func main() {
