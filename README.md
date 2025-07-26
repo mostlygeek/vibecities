@@ -15,7 +15,8 @@ What if Geocities started in 2025? What if the only interface was to vibe code y
 
 These instructions use Claude Desktop as an MCP client.
 
-1. Start vibecities `./vibecities`
+1. Build the binary: `go build -o bin/vibecities cmd/server/main.go`
+1. Start vibecities `./bin/vibecities`
 1. Set MCP server in Claude Desktop: “Settings → Developer → Edit Config”:
 
    ```json
