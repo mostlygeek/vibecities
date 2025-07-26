@@ -34,18 +34,27 @@ func NewMCPServer(db db.Store) *server.MCPServer {
 
 	// Add page set tool
 	setTool := mcp.NewTool("page_set",
-		mcp.WithDescription("Set the source of a web page"),
+		mcp.WithDescription("Set the HTML source of a web page"),
 		mcp.WithString("path",
 			mcp.Required(),
 			mcp.Description("path for the web page"),
 		),
+		mcp.WithString("title",
+			mcp.Required(),
+			mcp.Description("A Short title of the web page"),
+		),
 		mcp.WithString("data",
 			mcp.Required(),
-			mcp.Description("Data to store"),
+			mcp.Description("HTML source to store"),
 		),
 	)
 	srv.AddTool(setTool, func(ctx context.Context, request mcp.CallToolRequest) (*mcp.CallToolResult, error) {
 		path, err := request.RequireString("path")
+		if err != nil {
+			return mcp.NewToolResultError(err.Error()), nil
+		}
+
+		title, err := request.RequireString("title")
 		if err != nil {
 			return mcp.NewToolResultError(err.Error()), nil
 		}
@@ -55,7 +64,7 @@ func NewMCPServer(db db.Store) *server.MCPServer {
 			return mcp.NewToolResultError(err.Error()), nil
 		}
 
-		if err := db.Set(path, data); err != nil {
+		if err := db.Set(path, title, data); err != nil {
 			return mcp.NewToolResultError(fmt.Sprintf("Error setting web page: %v", err)), nil
 		}
 

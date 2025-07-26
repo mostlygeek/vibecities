@@ -9,17 +9,20 @@ import (
 )
 
 func main() {
-	db, err := db.NewDBSqlite("mcpcities.db")
+	db, err := db.NewDBSqlite("vibecities.db")
 	if err != nil {
 		log.Fatal(err)
 	}
 	defer db.Close()
-	db.Set("/about", "About Content")
+
+	if _, ok := db.Get("/about"); !ok {
+		db.Set("/about", "About Page", "VibeCities your place on the cool web.")
+	}
 
 	mcpSrv := web.NewMCPServer(db)
 	srv := web.NewServer(db, mcpSrv)
 
-	listen := "localhost:8111"
+	listen := "localhost:1337"
 	log.Println("Listening on " + listen)
 	http.ListenAndServe(listen, srv)
 }
