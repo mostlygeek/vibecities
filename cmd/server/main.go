@@ -40,5 +40,7 @@ func main() {
 	srv := web.NewServer(db, mcpSrv)
 
 	log.Println("Listening on " + *listen)
-	http.ListenAndServe(*listen, srv)
+	if err := http.ListenAndServe(*listen, srv); err != nil {
+		log.Fatal(err)
+	}
 }
