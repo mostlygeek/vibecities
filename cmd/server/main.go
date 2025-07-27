@@ -2,6 +2,7 @@ package main
 
 import (
 	"flag"
+	"fmt"
 	"log"
 	"net/http"
 
@@ -12,6 +13,17 @@ import (
 func main() {
 	listen := flag.String("listen", "127.0.0.1:1337", "HTTP listen address")
 	dbPath := flag.String("db", "vibecities.db", "Path to database file")
+
+	// Custom usage message (shown with -h/--help)
+	flag.Usage = func() {
+		fmt.Println("Usage: server [options]")
+		fmt.Println()
+		fmt.Println("Options:")
+		flag.PrintDefaults()
+		fmt.Println()
+	}
+
+	// If -help or -h supplied, flag.Parse will call usage and exit(2) for us
 	flag.Parse()
 
 	db, err := db.NewDBSqlite(*dbPath)
