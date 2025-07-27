@@ -15,8 +15,8 @@ What if Geocities started in 2025? What if the only interface was to vibe code y
 
 These instructions use Claude Desktop as an MCP client.
 
-1. Build the binary: `go build -o bin/vibecities cmd/server/main.go`
-1. Start vibecities `./bin/vibecities`
+1. Build the binary: `make all`
+1. Start vibecities `./build/vibecities-darwin-arm64` (or whatever platform you're on)
 1. Set MCP server in Claude Desktop: “Settings → Developer → Edit Config”:
 
    ```json
@@ -30,7 +30,8 @@ These instructions use Claude Desktop as an MCP client.
    }
    ```
 
-   - `--allow-http` is required _only_ when vibecities is running somewhere other than localhost
+   - `mcp-remote` is required as Claude desktop does not support remote transports 
+   -  `--allow-http` is required _only_ when vibecities is running somewhere other than localhost
 
 1. Restart claude desktop (Cmd+r on mac, ctrl+r on windows)
 1. Ask claude to search the web and make you a website, for example:
@@ -41,7 +42,7 @@ These instructions use Claude Desktop as an MCP client.
    <img width="1112" height="990" alt="image" src="https://github.com/user-attachments/assets/e50a2e08-4f70-4652-93dc-3800f97e0b62" />
 
 
-## Fast! (M1 MBP)
+## Benchmarks (M1 Macbook Pro)
 
 ```
 $ ab -n 1000 -c 5 http://127.0.0.1:1337/modem
