@@ -24,7 +24,7 @@ These instructions use Claude Desktop as an MCP client.
      "mcpServers": {
        "vibecities": {
          "command": "npx",
-         "args": ["mcp-remote", "http://10.0.1.2:1337/mcp", "--allow-http"]
+         "args": ["mcp-remote", "http://10.1.2.3:1337/mcp", "--allow-http"]
        }
      }
    }
@@ -33,13 +33,13 @@ These instructions use Claude Desktop as an MCP client.
    - `--allow-http` is required _only_ when vibecities is running somewhere other than localhost
 
 1. Restart claude desktop (Cmd+r on mac, ctrl+r on windows)
-1. Ask claude to search the web and make you a website, Try this:
+1. Ask claude to search the web and make you a website, for example:
+   <img width="1112" height="912" alt="image" src="https://github.com/user-attachments/assets/0b1a2a62-db90-49ee-9916-2203a2ffcb41" />
 
-   ```
-   Search the web the top 10 songs in the 1997. Create a page in vibecities under /top-10-in-1997 in a geocities style personal website.
-   ```
 
-1. Open `http://localhost:1337/` in your browser
+1. Open `http://10.1.2.3:1337/bbs` in your browser and feel the vibes...
+   <img width="1112" height="990" alt="image" src="https://github.com/user-attachments/assets/e50a2e08-4f70-4652-93dc-3800f97e0b62" />
+
 
 ## Fast! (M1 MBP)
 
