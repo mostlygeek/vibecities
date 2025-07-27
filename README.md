@@ -2,43 +2,62 @@
 
 ![VibeCities Header](vibecities-header2.webp)
 
-What if Geocities started in 2025? What if the only interface was to vibe code your page? Wonder no more. **VibeCities** is here to bring back the nostalgia!
+**VibeCities** is bringing back the nostalgia of the personal web page.
+- Notepad.exe → LLM
+- FTP → MCP
+- GeoCities → VibeCities
 
 ## About
 
-- written in golang, single binary to run `./vibecities`
-- point your browser web pages at `http://localhost:1337/`
-- supports streamable http mcp at `/mcp`
-- stores web pages in sqlite (no cgo necessary)
+VibeCities gives your LLM a one step web publishing super power! 
 
-## Testing with Claude Desktop!
+- Single, easy to run binary `./vibecities`.
+- Streamable http mcp server at `/mcp`
+- Stores web pages in one sqlite file (no cgo necessary)
 
-These instructions use Claude Desktop as an MCP client.
+It started with a question: what MCP server can I build in less than 3 hours? This was my original design spec: 
 
-1. Build the binary: `make all`
-1. Start vibecities `./build/vibecities-darwin-arm64` (or whatever platform you're on)
-1. Set MCP server in Claude Desktop: “Settings → Developer → Edit Config”:
+- an MCP server that CRUDs some resource
+- use golang
+- keep it super simple
+- make it composable with other tools
+- do something fun!
+
+## Batteries Included: vibecities.db
+
+- VibeCities comes some super cool sites out of the box
+- `./vibecities-darwin-arm64 -db vibecities.db`
+- Point your browser at `http://localhost:1337`
+  
+## Try it with Claude Desktop
+
+> [!NOTE]
+> Any MCP client will work. Claude Desktop was picked to make it easy to play with quickly. 
+
+1. Build the vibecities binary: `make all`
+1. Start vibecities `./build/vibecities-darwin-arm64` (use appropriate binary for your platform)
+1. Set MCP config in Claude Desktop: “Settings → Developer → Edit Config”:
 
    ```json
    {
      "mcpServers": {
        "vibecities": {
          "command": "npx",
-         "args": ["mcp-remote", "http://10.1.2.3:1337/mcp", "--allow-http"]
+         "args": ["mcp-remote", "http://localhost:1337/mcp", "--allow-http"]
        }
      }
    }
    ```
 
-   - `mcp-remote` is required as Claude desktop does not support remote transports 
-   -  `--allow-http` is required _only_ when vibecities is running somewhere other than localhost
+   -  `mcp-remote` is required as Claude desktop does not support remote transports 
+   -  `--allow-http` is required _only_ when vibecities is running somewhere other than localhost.
 
 1. Restart claude desktop (Cmd+r on mac, ctrl+r on windows)
-1. Ask claude to search the web and make you a website, for example:
+1. Ask claude to search the web and make a new page, for example:
    <img width="1112" height="912" alt="image" src="https://github.com/user-attachments/assets/0b1a2a62-db90-49ee-9916-2203a2ffcb41" />
 
 
-1. Open `http://10.1.2.3:1337/bbs` in your browser and feel the vibes...
+1. Open `http://localhost:1337/bbs` in your browser and feel the vibes...
    <img width="1112" height="990" alt="image" src="https://github.com/user-attachments/assets/e50a2e08-4f70-4652-93dc-3800f97e0b62" />
 
 
@@ -93,17 +112,6 @@ Percentage of the requests served within a certain time (ms)
 ```
 
 ---
-
-## Design Specs
-
-(initial ideas for how it should work)
-
-- Bring back the 90s web!
-- an MCP server for managing a small website of info
-- serves web pages at /{somepage}.html
-- use golang
-- pages served are single page HTML
-- keep it super simple
 
 ## Tools
 
