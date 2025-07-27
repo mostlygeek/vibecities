@@ -1,6 +1,7 @@
 package main
 
 import (
+	"flag"
 	"log"
 	"net/http"
 
@@ -9,7 +10,11 @@ import (
 )
 
 func main() {
-	db, err := db.NewDBSqlite("vibecities.db")
+	listen := flag.String("listen", "127.0.0.1:1337", "HTTP listen address")
+	dbPath := flag.String("db", "vibecities.db", "Path to database file")
+	flag.Parse()
+
+	db, err := db.NewDBSqlite(*dbPath)
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -22,7 +27,6 @@ func main() {
 	mcpSrv := web.NewMCPServer(db)
 	srv := web.NewServer(db, mcpSrv)
 
-	listen := "localhost:1337"
-	log.Println("Listening on " + listen)
-	http.ListenAndServe(listen, srv)
+	log.Println("Listening on " + *listen)
+	http.ListenAndServe(*listen, srv)
 }
