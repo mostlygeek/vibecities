@@ -24,11 +24,13 @@ These instructions use Claude Desktop as an MCP client.
      "mcpServers": {
        "vibecities": {
          "command": "npx",
-         "args": ["mcp-remote", "http://localhost:1337/mcp"]
+         "args": ["mcp-remote", "http://10.0.1.2:1337/mcp", "--allow-http"]
        }
      }
    }
    ```
+
+   - `--allow-http` is required _only_ when vibecities is running somewhere other than localhost
 
 1. Restart claude desktop (Cmd+r on mac, ctrl+r on windows)
 1. Ask claude to search the web and make you a website, Try this:

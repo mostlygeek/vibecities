@@ -56,7 +56,7 @@ func (s *Server) IndexHandler(c *gin.Context) {
 	html := `<!DOCTYPE html>
 <html>
 <head>
-    <title>MCPCities</title>
+    <title>VibeCities - Feel the AI</title>
     <style>
         body { font-family: Arial, sans-serif; margin: 40px; }
         h1 { color: #333; }
