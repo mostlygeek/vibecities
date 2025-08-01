@@ -2,3 +2,4 @@ build/*
 
 # Ignore the working db directory
 vibedbs/*
+.roo/

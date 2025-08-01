@@ -58,7 +58,7 @@ func (d *DBSqlite) List() map[string]Record {
 	defer d.RUnlock()
 
 	rows, err := d.db.Query(`
-		SELECT id, path, title, data, created, updated
+		SELECT id, path, title, created, updated
 		FROM records`)
 	if err != nil {
 		return make(map[string]Record)
@@ -69,7 +69,7 @@ func (d *DBSqlite) List() map[string]Record {
 	for rows.Next() {
 		var r Record
 		if err := rows.Scan(&r.ID, &r.Path, &r.Title,
-			&r.Data, &r.Created, &r.Updated); err != nil {
+			&r.Created, &r.Updated); err != nil {
 			continue
 		}
 		result[r.Path] = r
