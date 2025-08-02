@@ -4,13 +4,17 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
+	"log"
+	"os"
+	"path/filepath"
+	"strings"
 
 	"github.com/mark3labs/mcp-go/mcp"
 	"github.com/mark3labs/mcp-go/server"
 	"github.com/mostlygeek/vibecities/db"
 )
 
-func NewMCPServer(db db.Store) *server.MCPServer {
+func NewMCPServer(db db.Store, enableLoadPath bool) *server.MCPServer {
 	srv := server.NewMCPServer(
 		"mcpcities",
 		"0.0.1",
@@ -37,7 +41,7 @@ func NewMCPServer(db db.Store) *server.MCPServer {
 		mcp.WithDescription("Set the HTML source of a web page"),
 		mcp.WithString("path",
 			mcp.Required(),
-			mcp.Description("path for the web page"),
+			mcp.Description("url path for the web page"),
 		),
 		mcp.WithString("title",
 			mcp.Required(),
@@ -76,7 +80,7 @@ func NewMCPServer(db db.Store) *server.MCPServer {
 		mcp.WithDescription("Get a web page from the database"),
 		mcp.WithString("path",
 			mcp.Required(),
-			mcp.Description("Path/key for the web page"),
+			mcp.Description("url path for the web page"),
 		),
 	)
 	srv.AddTool(getTool, func(ctx context.Context, request mcp.CallToolRequest) (*mcp.CallToolResult, error) {
@@ -97,7 +101,7 @@ func NewMCPServer(db db.Store) *server.MCPServer {
 		mcp.WithDescription("Delete a web page from the database"),
 		mcp.WithString("path",
 			mcp.Required(),
-			mcp.Description("Path/key for the web page to delete"),
+			mcp.Description("url path for the web page to delete"),
 		),
 	)
 	srv.AddTool(deleteTool, func(ctx context.Context, request mcp.CallToolRequest) (*mcp.CallToolResult, error) {
@@ -112,6 +116,56 @@ func NewMCPServer(db db.Store) *server.MCPServer {
 
 		return mcp.NewToolResultText(fmt.Sprintf("Successfully deleted web page at path: %s", path)), nil
 	})
+
+	if enableLoadPath {
+		log.Println("WARNING: loadPath tool enabled - this is a security risk if not used in a trusted environment!")
+
+		// Add loadPath tool
+		loadPathTool := mcp.NewTool("page_set_from_file",
+			mcp.WithDescription("Load a file from the local filesystem and store it as a web page in the database"),
+			mcp.WithString("filepath",
+				mcp.Required(),
+				mcp.Description("Full local file system path to read from"),
+			),
+			mcp.WithString("path",
+				mcp.Required(),
+				mcp.Description("url path for the web page in the database"),
+			),
+		)
+
+		srv.AddTool(loadPathTool, func(ctx context.Context, request mcp.CallToolRequest) (*mcp.CallToolResult, error) {
+			// Check if request is from localhost
+
+			filepathParam, err := request.RequireString("filepath")
+			if err != nil {
+				return mcp.NewToolResultError(err.Error()), nil
+			}
+
+			path, err := request.RequireString("path")
+			if err != nil {
+				return mcp.NewToolResultError(err.Error()), nil
+			}
+
+			// Read file content
+			content, err := os.ReadFile(filepathParam)
+			if err != nil {
+				return mcp.NewToolResultError(fmt.Sprintf("Error reading file: %v", err)), nil
+			}
+
+			// Get title from filename
+			title := filepath.Base(filepathParam)
+			if idx := strings.LastIndex(title, "."); idx != -1 {
+				title = title[:idx]
+			}
+
+			// Store in database
+			if err := db.Set(path, title, string(content)); err != nil {
+				return mcp.NewToolResultError(fmt.Sprintf("Error storing web page: %v", err)), nil
+			}
+
+			return mcp.NewToolResultText(fmt.Sprintf("Successfully loaded file '%s' to path: %s", filepathParam, path)), nil
+		})
+	}
 
 	return srv
 }
