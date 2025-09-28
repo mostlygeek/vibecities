@@ -7,23 +7,25 @@ import (
 	"time"
 
 	"github.com/gin-gonic/gin"
-	"github.com/mark3labs/mcp-go/server"
+	"github.com/modelcontextprotocol/go-sdk/mcp"
 	"github.com/mostlygeek/vibecities/db"
 )
 
 type Server struct {
 	db     db.Store
-	mcp    *server.MCPServer
+	mcp    *mcp.Server
 	engine *gin.Engine
 }
 
-func NewServer(db db.Store, mcp *server.MCPServer) *Server {
+func NewServer(db db.Store, mcpServer *mcp.Server) *Server {
 	r := gin.Default()
-	httpMcp := server.NewStreamableHTTPServer(mcp)
+	httpMcp := mcp.NewStreamableHTTPHandler(func(*http.Request) *mcp.Server{
+		return mcpServer
+	}, nil)
 
 	s := &Server{
 		db:     db,
-		mcp:    mcp,
+		mcp:    mcpServer,
 		engine: r,
 	}
 

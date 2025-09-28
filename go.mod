@@ -4,7 +4,7 @@ go 1.24.3
 
 require (
 	github.com/gin-gonic/gin v1.10.1
-	github.com/mark3labs/mcp-go v0.35.0
+	github.com/modelcontextprotocol/go-sdk v0.1.0
 	modernc.org/sqlite v1.38.1
 )
 
@@ -30,10 +30,8 @@ require (
 	github.com/ncruces/go-strftime v0.1.9 // indirect
 	github.com/pelletier/go-toml/v2 v2.2.2 // indirect
 	github.com/remyoudompheng/bigfft v0.0.0-20230129092748-24d4a6f8daec // indirect
-	github.com/spf13/cast v1.7.1 // indirect
 	github.com/twitchyliquid64/golang-asm v0.15.1 // indirect
 	github.com/ugorji/go/codec v1.2.12 // indirect
-	github.com/yosida95/uritemplate/v3 v3.0.2 // indirect
 	golang.org/x/arch v0.8.0 // indirect
 	golang.org/x/crypto v0.23.0 // indirect
 	golang.org/x/exp v0.0.0-20250620022241-b7579e27df2b // indirect

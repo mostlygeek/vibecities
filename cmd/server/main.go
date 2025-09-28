@@ -13,7 +13,6 @@ import (
 func main() {
 	listen := flag.String("listen", "127.0.0.1:1337", "HTTP listen address")
 	dbPath := flag.String("db", "vibecities.db", "Path to database file")
-	enableLoadPath := flag.Bool("enable-load-path", false, "Enable the loadPath tool (security risk)")
 
 	// Custom usage message (shown with -h/--help)
 	flag.Usage = func() {
@@ -37,7 +36,7 @@ func main() {
 		db.Set("/about", "About Page", "VibeCities your place on the cool web.")
 	}
 
-	mcpSrv := web.NewMCPServer(db, *enableLoadPath)
+	mcpSrv := web.NewMCPServer(db)
 	srv := web.NewServer(db, mcpSrv)
 
 	log.Println("Listening on " + *listen)
